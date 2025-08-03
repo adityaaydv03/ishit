@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Side-by-Side Gratitude & Image Jars</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+  body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f9d5e5, #fcb69f, #ff9472);
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 {
+    color: #a5273e;
+    text-shadow: 1px 1px 3px #f9c9d3;
+    margin-top: 32px;
+    margin-bottom: 36px;
+    font-size: 2.1rem;
+    letter-spacing: 0.02em;
+  }
+  .row-jars {
+    display: flex;
+    flex-direction: row;
+    gap: 38px;
+    align-items: flex-end;
+    margin-bottom: 24px;
+  }
+  /* Small Gratitude Jar */
+  .small-jar {
+    position: relative;
+    width: 320px;
+    height: 350px;
+    background: radial-gradient(circle at bottom, #ffe0e6 60%, #f072b6 80%);
+    border: 7px solid #fff;
+    border-radius: 45% / 12%;
+    box-shadow:
+      0 6px 16px rgba(255, 182, 193, 0.49),
+      inset 0 0 16px #f9c1d9;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+  .small-jar-neck {
+    position: absolute;
+    top: -42px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 72px;
+    height: 54px;
+    background: #ff869a;
+    border-radius: 40% / 100%;
+    border: 4px solid #fff;
+    z-index: 2;
+  }
+  .small-slip-container {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 250px;
+    min-height: 70px;
+    background: none; /* Fully transparent */
+    border-radius: 14px;
+    padding: 22px 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #b50631;
+    text-align: center;
+    user-select: none;
+    opacity: 0;
+    transition: opacity 0.45s;
+    letter-spacing: 0.02em;
+    line-height: 1.85;
+    text-shadow: 
+      0 1px 6px #fff,
+      0 1px 1.2px #fff;
+    z-index: 3;
+  }
+  .small-slip-container.show {
+    opacity: 1;
+  }
+
+  /* Image Jar */
+  .image-jar {
+    position: relative;
+    width: 400px;
+    height: 495px;
+    background: radial-gradient(circle at bottom, #ffe0e6 60%, #f072b6 80%);
+    border: 9px solid #fff;
+    border-radius: 45% / 12%;
+    box-shadow:
+      0 9px 26px rgba(255, 182, 193, 0.54),
+      inset 0 0 20px #f9c1d9;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 0;
+    transition: background-image 0.5s ease;
+  }
+  .image-jar-neck {
+    position: absolute;
+    top: -55px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 115px;
+    height: 74px;
+    background: #ff869a;
+    border-radius: 40% / 100%;
+    border: 6px solid #fff;
+    z-index: 2;
+  }
+  button {
+    margin-top: 8px;
+    margin-bottom: 24px;
+    background: #f64c72;
+    border: none;
+    border-radius: 50px;
+    padding: 17px 46px;
+    font-size: 1.2rem;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 7px 19px rgba(246,76,114,0.26);
+    transition: background 0.22s ease;
+  }
+  button:hover {
+    background: #d63958;
+  }
+  @media (max-width: 900px) {
+    .row-jars {
+      flex-direction: column;
+      gap: 24px;
+      align-items: center;
+    }
+    .small-jar, .image-jar {
+      width: 88vw !important;
+      min-width: 225px !important;
+      max-width: 470px !important;
+    }
+    .image-jar {
+      height: 52vw;
+      max-height: 510px;
+    }
+    .small-jar {
+      height: 260px;
+    }
+    .small-slip-container {
+      width: 82vw;
+      max-width: 330px;
+    }
+  }
+</style>
+</head>
+<body>
+  <h1>Happy Friendship Day my #1 ❤️🧿</h1>
+  <div class="row-jars">
+    <!-- Left: Small Gratitude Jar -->
+    <div class="small-jar">
+      <div class="small-jar-neck"></div>
+      <div id="slip" class="small-slip-container"></div>
+    </div>
+    <!-- Right: Image Jar -->
+    <div class="image-jar" id="imgJar">
+      <div class="image-jar-neck"></div>
+    </div>
+  </div>
+  <button id="openButton">Open a Slip Princess 🎀</button>
+<script>
+  const gratitudes = [
+    "You light up my world in ways words can't even capture. ✨🌟💡🌞",
+    "Your smile is a secret superpower that brightens my darkest days. 😊💖⚡️🌈",
+    "Thanks for being my personal cheerleader matko, always rooting for me. 📣🎉🙌💪",
+    "You turn ordinary moments into magical memories. 🪄🌸🎆📸",
+    "Grateful for your heart that's as big as the universe. ❤️🌌🌍💫",
+    "You’re the reason I believe in luck and fate. 🍀✨🌠🔮",
+    "Every conversation with you is my favorite part of the day. 💬☕️💞🕰️",
+    "Your strength and grace inspire me beyond words. 🦋💪🌺🙏",
+    "Thank you for being my constant in my chaotic world. 🛡️🌈⚓️🤗",
+    "You are the best gift I never knew I needed. 🎁🎈🌟🤝"
+  ];
+  const backgrounds = [
+    "url('IMG_1.JPG')",
+    "url('IMG_2.JPG')",
+    "url('IMG_3.JPG')",
+    "url('IMG_4.JPG')",
+    "url('IMG_5.JPG')",
+    "url('IMG_6.JPG')",
+    "url('IMG_7.JPG')",
+    "url('IMG_8.JPG')",
+    "url('IMG_9.JPG')",
+    "url('IMG_10.JPG')"
+  ];
+  let order = Array.from({length: gratitudes.length}, (_, i) => i);
+  const slipDiv = document.getElementById('slip');
+  const button = document.getElementById('openButton');
+  const imgJar = document.getElementById('imgJar');
+  button.addEventListener('click', () => {
+    if (order.length === 0) {
+      slipDiv.textContent = "All gratitude slips opened! You are truly special. 💛";
+      slipDiv.classList.add('show');
+      imgJar.style.backgroundImage = '';
+      button.disabled = true;
+      button.textContent = "No More Slips";
+      return;
+    }
+    const pick = Math.floor(Math.random() * order.length);
+    const idx = order.splice(pick, 1)[0];
+    slipDiv.textContent = gratitudes[idx];
+    slipDiv.classList.add('show');
+    imgJar.style.backgroundImage = backgrounds[idx];
+    imgJar.style.backgroundSize = 'cover';
+    imgJar.style.backgroundPosition = 'center';
+  });
+</script>
+</body>
+</html>
